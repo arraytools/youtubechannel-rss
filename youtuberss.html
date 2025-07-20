@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>YouTube Channel RSS Generator (Fixed)</title>
+  <style>
+    body { font-family: sans-serif; margin: 40px; }
+    input, button { font-size: 1rem; padding: 6px; margin: 4px 0; width: 350px; }
+    #result { margin-top: 20px; }
+    label { font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h2>YouTube Channel RSS Feed Generator</h2>
+  <label for="url">Paste a YouTube Channel URL:</label><br>
+  <input type="text" id="url" placeholder="e.g. https://www.youtube.com/@YouTube"><br>
+  <button onclick="generateRSS()">Get RSS Feed URL</button>
+  <div id="result"></div>
+  <script>
+    async function generateRSS() {
+      const url = document.getElementById('url').value.trim();
+      document.getElementById('result').innerText = '';
+
+      if (!url) {
+        document.getElementById('result').innerText = 'Please enter a channel URL.';
+        return;
+      }
+
+      // Try to extract channel ID directly from /channel/ form
+      let match = url.match(/youtube\.com\/channel\/([A-Za-z0-9_-]{24})/);
+      if (match) {
+        outputRSS(match[1]);
+        return;
+      }
+
+      try {
+        // Fetch the channel page and parse RSS link
+        const proxyUrl = 'https://corsproxy.io/?' + encodeURIComponent(url);
+        const resp = await fetch(proxyUrl);
+        const html = await resp.text();
+
+        // REGEX to find the RSS feed link (works reliably as of 2024)
+        let rssMatch = html.match(/href="https:\/\/www\.youtube\.com\/feeds\/videos\.xml\?channel_id=([A-Za-z0-9_-]{24})"/);
+        if (rssMatch) {
+          outputRSS(rssMatch[1]);
+        } else {
+          document.getElementById('result').innerText = 'Channel ID not found. Please check the URL or try a different format.';
+        }
+      } catch (e) {
+        document.getElementById('result').innerText = 'Could not fetch channel information.';
+      }
+
+      function outputRSS(channelId) {
+        const rssUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`;
+        document.getElementById('result').innerHTML = `
+          <strong>Channel ID:</strong> ${channelId}<br>
+          <strong>RSS Feed:</strong> <a href="${rssUrl}" target="_blank">${rssUrl}</a>
+        `;
+      }
+    }
+  </script>
+</body>
+</html>
