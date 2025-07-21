@@ -25,4 +25,6 @@ No installation needed—open it in your browser and start generating RSS feed U
 
 1. **Download or clone** this repository to your computer.
 2. **Open the `index.html` file** with any modern web browser (Chrome, Firefox, Edge, etc.).
-3. **Paste a YouTube channel URL** into the
+3. **Paste a YouTube channel URL** into the input box.
+4. **Click "Get RSS Feed URL"**.
+   The RSS feed link will be shown below, ready to use in any RSS reader!
