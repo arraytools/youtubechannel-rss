@@ -8,6 +8,13 @@ A simple web tool to extract and generate the RSS feed URL for any YouTube chann
 
 ---
 
+## 🔗 Live Demo
+
+🟢 Try it now:
+👉 [https://arraytools.github.io/youtubechannel-rss/](https://arraytools.github.io/youtubechannel-rss/)
+
+No installation needed—open it in your browser and start generating RSS feed URLs for YouTube channels instantly!
+
 ## ⭐ Features
 
 - **Easy to Use:** Paste any YouTube channel URL (supports `/@handle`, `/channel/`, `/user/`, and `/c/` formats)
